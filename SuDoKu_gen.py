@@ -16,7 +16,10 @@ class Board:
         if num > 9:
             return False
         three_by_three = (row//3, col//3)
-        if num in self.grid[three_by_three[0]*3:three_by_three[0]*3+3, three_by_three[1]*3:three_by_three[1]*3]:
+        start_row, end_row = three_by_three[0]*3, three_by_three[0]*3 + 3
+        start_col, end_col = three_by_three[1]*3, three_by_three[1]*3 + 3
+
+        if num in self.grid[start_row: end_row, start_col:end_col]:
             return False
         if num in self.grid[:, col] or num in self.grid[row, :]:
             return False
