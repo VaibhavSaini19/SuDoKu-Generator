@@ -1,6 +1,8 @@
 import random
 import numpy as np
-import tkinter as tk
+import matplotlib.pyplot as plt
+from matplotlib import colors
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 
 
 class Board:
@@ -91,6 +93,7 @@ class Board:
         (Though its not necessary, but a symmetric board is more appealing and appreciated, apparently)
         '''
         self.puzzle = np.zeros((9, 9), dtype=str)
+        
         n = 0
         while n < 15:
             i = np.random.randint(9)
@@ -116,8 +119,36 @@ class Board:
         '''
         print(self.puzzle)
 
+    def show_puzzle(self):
+        fig, ax = plt.subplots()
+        ax.set_ylim(ax.get_ylim()[::-1])
+
+        for i in range(0, 9):
+            for j in range(0, 9):
+                val = self.puzzle[j, i]
+                ax.text(i+0.5, 9-(j+0.5), str(val), fontweight='bold', va='center', ha='center')
+
+        ax.set_xlim(0, 9)
+        ax.set_ylim(0, 9)
+        ax.set_xticks(np.arange(9))
+        ax.set_yticks(np.arange(9))
+        # ax.grid()
+        ax.xaxis.set_major_locator(MultipleLocator(3))
+        ax.xaxis.set_minor_locator(MultipleLocator(1))
+
+        ax.yaxis.set_major_locator(MultipleLocator(3))
+        ax.yaxis.set_minor_locator(MultipleLocator(1))
+
+        ax.xaxis.grid(True,'minor')
+        ax.yaxis.grid(True,'minor')
+        ax.xaxis.grid(True,'major',linewidth=3)
+        ax.yaxis.grid(True,'major',linewidth=3)
+
+        plt.show()
+
 
 if __name__ == "__main__":
     board = Board()
     board.fill_grid()
     board.create_puzzle()
+    board.show_puzzle()
